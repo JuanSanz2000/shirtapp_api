@@ -16,7 +16,9 @@ class ArticulosController extends Controller
     public function index()
     {
         //$articulos = Articulo::get(); // eloquent
-        $articulos = Articulo::get();
+        $articulos = Articulo::where('oferta', 0)
+        ->orderBy('nombre', 'desc')
+        ->get();
         return (new Response($articulos, "200"));
     }
 
