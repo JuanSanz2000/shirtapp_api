@@ -18,3 +18,4 @@ Route::get('pedidos', 'PedidosController@index');
 
 //LINEAS_PEDIDOS
 Route::get('lineas_pedido', 'Linea_PedidosController@index');
+Route::get('total', 'Linea_PedidosController@index');

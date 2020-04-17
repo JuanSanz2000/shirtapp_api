@@ -18,6 +18,13 @@ class Linea_PedidosController extends Controller
         return (new Response($lineas_pedido, "200"));
     }
 
+    public function damePedidosRealizados()
+    {
+        $total = Lineas_Pedido::orderBy('cantidad', 'desc')
+        ->get();
+        return (new Response($total, "200"));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
