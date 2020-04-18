@@ -2,22 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Cliente;
+
 class ClientesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $clientes = Cliente::get();
         return (new Response($clientes, "200"));
     }
 
+    public function login(Request $request)
+    {     
+        
+        $cliente = Cliente::where('email', $request->email)->first();
+        
+        if (!$cliente) {
+            return (new Response(null, "401"));
+        }
+
+        if (Hash::check($request->password, $cliente->password)) {
+            $return["cliente"] = $cliente;
+            $return["token"] =  $cliente->createToken('ShirtApp')->accessToken;
+            return (new Response($return, "200"));
+            
+        } else {
+            return (new Response(null, "401"));
+        }   
+    }
     /**
      * Show the form for creating a new resource.
      *

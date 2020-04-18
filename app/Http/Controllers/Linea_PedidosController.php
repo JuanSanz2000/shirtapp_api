@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Lineas_Pedido;
+use App\Articulos;
 class Linea_PedidosController extends Controller
 {
     /**
@@ -16,13 +17,6 @@ class Linea_PedidosController extends Controller
     {
         $lineas_pedido = Lineas_Pedido::get();
         return (new Response($lineas_pedido, "200"));
-    }
-
-    public function damePedidosRealizados()
-    {
-        $total = Lineas_Pedido::orderBy('cantidad', 'desc')
-        ->get();
-        return (new Response($total, "200"));
     }
 
     /**

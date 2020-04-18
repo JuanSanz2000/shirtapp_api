@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) { return $request->user(); });
 
+//LOGIN
+Route::post('login', 'ClientesController@login');
+
 // ARTÍCULOS
 Route::get('articulos', 'ArticulosController@index');
 Route::get('ofertas',   'ArticulosController@dameOfertas');
@@ -15,7 +18,7 @@ Route::get('clientes', 'ClientesController@index');
 
 //PEDIDOS
 Route::get('pedidos', 'PedidosController@index');
+Route::get('total', 'PedidosController@index');
 
 //LINEAS_PEDIDOS
 Route::get('lineas_pedido', 'Linea_PedidosController@index');
-Route::get('total', 'Linea_PedidosController@index');
