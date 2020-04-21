@@ -17,8 +17,7 @@ Route::get('busqueda/{strBusqueda}', 'ArticulosController@busqueda');
 Route::get('clientes', 'ClientesController@index');
 
 //PEDIDOS
-Route::get('pedidos', 'PedidosController@index');
-Route::get('total', 'PedidosController@index');
+Route::middleware('auth:api')->get('pedidos', 'PedidosController@index');
 
 //LINEAS_PEDIDOS
 Route::get('lineas_pedido', 'Linea_PedidosController@index');

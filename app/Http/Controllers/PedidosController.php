@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Pedido;
@@ -10,27 +11,15 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = Pedido::get();
-        return (new Response($pedidos, "200"));
-    }
-
-        /*
-        $datosUsuario = auth['api']->user();
+        $datosUsuario = Auth::user();
         
-        $pedidos = Pedido::where('usuario_id', $datosUsuario->id)
+        $pedidos = Pedido::where('cliente_id', $datosUsuario->id)
                     ->orderBy('created_at', 'desc')
                     ->get();
 
         return (new Response($pedidos, "200"));
     }
-*/
-    public function damePedidosRealizados()
-    {
-        $total = Pedido::where('cliente_id', 1)
-        ->orderBy('fecha', 'desc')
-        ->get();
-        return (new Response($total, "200"));
-    }
+  
 
     public function create()
     {
