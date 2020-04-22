@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'ClientesController@login');
 
 // ARTÍCULOS
-Route::get('articulos', 'ArticulosController@index');
-Route::get('ofertas',   'ArticulosController@dameOfertas');
-Route::get('busqueda/{strBusqueda}', 'ArticulosController@busqueda');
+Route::middleware('auth:api')->get('articulos', 'ArticulosController@index');
+Route::middleware('auth:api')->get('ofertas',   'ArticulosController@dameOfertas');
+Route::middleware('auth:api')->get('busqueda/{strBusqueda}', 'ArticulosController@busqueda');
 
 //CLIENTES
-Route::get('clientes', 'ClientesController@index');
+Route::middleware('auth:api')->get('clientes', 'ClientesController@index');
 
 //PEDIDOS
 Route::middleware('auth:api')->get('pedidos', 'PedidosController@index');
 
 //LINEAS_PEDIDOS
-Route::get('lineas_pedido', 'Linea_PedidosController@index');
+Route::middleware('auth:api')->get('lineas_pedido', 'Linea_PedidosController@index');
