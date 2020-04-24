@@ -30,6 +30,13 @@ class ArticulosController extends Controller
         return (new Response($articulos, "200"));
     }
 
+    public function dameDetalles($idArticulo)
+    {
+        $datosArticulo = Articulo::where('id', $idArticulo)
+        ->first();
+        return (new Response($datosArticulo, "200"));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
