@@ -12,6 +12,7 @@ Route::post('login', 'ClientesController@login');
 Route::middleware('auth:api')->get('articulos', 'ArticulosController@index');
 Route::middleware('auth:api')->get('ofertas',   'ArticulosController@dameOfertas');
 Route::middleware('auth:api')->get('busqueda/{strBusqueda}', 'ArticulosController@busqueda');
+Route::middleware('auth:api')->get('articulo/{idArticulo}', 'ArticulosController@dameDetalles');
 
 //CLIENTES
 Route::middleware('auth:api')->get('clientes', 'ClientesController@index');

@@ -20,6 +20,9 @@ class PedidosController extends Controller
         return (new Response($pedidos, "200"));
     }
   
+    function insertaLineaPedido($idArticulo, $cantidad) {
+        
+    }
 
     public function create()
     {

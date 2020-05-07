@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lineas_Pedido extends Model
+class LineasPedido extends Model
 {
     protected $table="lineas_pedido";
 }

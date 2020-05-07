@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Lineas_Pedido;
+use App\Carrito;
 
-class Linea_PedidosController extends Controller
+class CarritosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $lineas_pedido = Lineas_Pedido::get();
-        return (new Response($lineas_pedido, "200"));
+        $datosUsuario = Auth::user();
+        
+        $carrito = Carrito::where('cliente_id', $datosUsuario->id)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+        return (new Response($carrito, "200"));
+    }
+  
+    function insertaLineaCarrito($idArticulo, $cantidad) {
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
