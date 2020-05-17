@@ -18,7 +18,11 @@ Route::middleware('auth:api')->get('articulo/{idArticulo}', 'ArticulosController
 Route::middleware('auth:api')->get('clientes', 'ClientesController@index');
 
 //PEDIDOS
-Route::middleware('auth:api')->get('pedidos', 'PedidosController@index');
+Route::middleware('auth:api')->get('pedidos',       'PedidosController@index');
 
-//LINEAS_PEDIDOS
-Route::middleware('auth:api')->get('lineas_pedido', 'Linea_PedidosController@index');
+//CARRITOS
+Route::middleware('auth:api')->get('carrito',                       'PedidosController@carrito');
+Route::middleware('auth:api')->delete('carrito/linea/{lineaId}',    'PedidosController@borraLineaPedido');
+Route::middleware('auth:api')->post('carrito/linea',                'PedidosController@insertaLineaPedido');
+Route::middleware('auth:api')->get('carrito/confirma/{pedidoId}',   'PedidosController@confirmaPedido');
+Route::middleware('auth:api')->get('carrito/nuevo',                 'PedidosController@crearCarrito');

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Pedido;
+use App\LineasPedido;
+use Carbon\Carbon;
 
 class PedidosController extends Controller
 {
@@ -13,15 +15,89 @@ class PedidosController extends Controller
     {
         $datosUsuario = Auth::user();
         
-        $pedidos = Pedido::where('cliente_id', $datosUsuario->id)
-                    ->orderBy('created_at', 'desc')
+        $pedidos = Pedido::where('pedidos.cliente_id', $datosUsuario->id)
+                    ->where('pedidos.estado','<>','carrito')
+                    ->orderBy('pedidos.created_at', 'desc')
                     ->get();
 
         return (new Response($pedidos, "200"));
     }
-  
-    function insertaLineaPedido($idArticulo, $cantidad) {
+
+    public function detallesPedido($idPedido)
+    {   
+        $pedidos = LineasPedido::where('lineas_pedido.pedido_id', $idPedido)
+                    ->get();
+
+        return (new Response($pedidos, "200"));
+    }
+
+    public function carrito()
+    {
+        $datosUsuario = Auth::user();
         
+        $datosCarrito = Pedido::where('pedidos.cliente_id', $datosUsuario->id)
+                        ->where('pedidos.estado','carrito')
+                        ->first();
+
+        $lineasCarrito = LineasPedido::select('lineas_pedido.*','articulos.nombre','articulos.precio')
+                        ->join('articulos','articulos.id','lineas_pedido.articulo_id')
+                        ->where('lineas_pedido.pedido_id', $datosCarrito->id)
+                        ->orderBy('lineas_pedido.created_at','desc')
+                        ->get();
+
+        $datosCarrito["lineas"] = $lineasCarrito;
+            
+        return (new Response($datosCarrito, "200"));
+    }
+
+    public function borraLineaPedido($lineaId) {
+        $borrado = LineasPedido::where('id',$lineaId)
+                    ->delete();
+        return (new Response($borrado, "200"));
+    }
+
+  
+    function insertaLineaPedido(Request $request ) {
+        $nuevaLinea = new LineasPedido();
+
+        $nuevaLinea->pedido_id      = $request["pedido_id"];
+        $nuevaLinea->articulo_id    = $request["articulo_id"];
+        $nuevaLinea->talla          = $request["talla"];
+        $nuevaLinea->color          = $request["color"];
+        $nuevaLinea->cantidad       = $request["cantidad"];
+        $nuevaLinea->total          = $request["total"];
+
+        $nuevaLinea->save();
+
+        return (new Response($nuevaLinea, "200"));
+    }
+
+    public function confirmaPedido($pedidoId) {
+        $pedido = Pedido::where('pedidos.id', $pedidoId)
+                    ->first();
+        
+        if(($pedido->count())>0) {
+            $pedido->estado = 'pedido';
+            $pedido->fecha = Carbon::now()->format('Y-m-d H:i:s');
+            $pedido->save();
+        }
+
+        return (new Response($pedido, "200"));
+    }
+
+    public function crearCarrito() {
+
+        $datosUsuario = Auth::user();
+
+        $carrito = new Pedido;
+        
+        $carrito->cliente_id = $datosUsuario->id;
+        $carrito->fecha = Carbon::now()->format('Y-m-d H:i:s');
+        $carrito->estado = 'carrito';
+
+        $carrito->save();
+
+        return (new Response($carrito, "200"));
     }
 
     public function create()
