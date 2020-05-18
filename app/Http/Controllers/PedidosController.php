@@ -11,6 +11,8 @@ use Carbon\Carbon;
 
 class PedidosController extends Controller
 {
+    // ya la tenias hecha.. es index.. devuelve los pedidos de un cliente
+
     public function index()
     {
         $datosUsuario = Auth::user();
@@ -23,14 +25,20 @@ class PedidosController extends Controller
         return (new Response($pedidos, "200"));
     }
 
-    public function detallesPedido($idPedido)
+    // sobra
+    /*
+    public function damePedido()
     {   
-        $pedidos = LineasPedido::where('lineas_pedido.pedido_id', $idPedido)
+        $datosUsuario = Auth::user();
+        
+        $pedidos = Pedido::where('pedidos.cliente_id', $datosUsuario->id)
+                    ->where('pedidos.estado', 'pedido')
                     ->get();
 
         return (new Response($pedidos, "200"));
     }
-
+    */
+    
     public function carrito()
     {
         $datosUsuario = Auth::user();
