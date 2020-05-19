@@ -11,8 +11,6 @@ use Carbon\Carbon;
 
 class PedidosController extends Controller
 {
-    // ya la tenias hecha.. es index.. devuelve los pedidos de un cliente
-
     public function index()
     {
         $datosUsuario = Auth::user();
@@ -38,7 +36,7 @@ class PedidosController extends Controller
         return (new Response($pedidos, "200"));
     }
     */
-    
+
     public function carrito()
     {
         $datosUsuario = Auth::user();
@@ -81,12 +79,17 @@ class PedidosController extends Controller
     }
 
     public function confirmaPedido($pedidoId) {
+
+        $total_lineas = LineasPedido::where('lineas_pedido.pedido_id', $pedidoId)
+                    ->sum('total');
+
         $pedido = Pedido::where('pedidos.id', $pedidoId)
                     ->first();
         
         if(($pedido->count())>0) {
             $pedido->estado = 'pedido';
             $pedido->fecha = Carbon::now()->format('Y-m-d H:i:s');
+            $pedido->total = $total_lineas;
             $pedido->save();
         }
 
