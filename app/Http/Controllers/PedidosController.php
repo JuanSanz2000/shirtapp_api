@@ -23,19 +23,15 @@ class PedidosController extends Controller
         return (new Response($pedidos, "200"));
     }
 
-    // sobra
-    /*
-    public function damePedido()
+    public function dameDetallesPedido($pedidoId)
     {   
-        $datosUsuario = Auth::user();
-        
-        $pedidos = Pedido::where('pedidos.cliente_id', $datosUsuario->id)
-                    ->where('pedidos.estado', 'pedido')
+        $lineas = LineasPedido::select('lineas_pedido.*','articulos.nombre as NombreArticulo','articulos.precio')
+                    ->join('articulos','articulos.id','lineas_pedido.articulo_id')
+                    ->where('lineas_pedido.pedido_id', $pedidoId)
                     ->get();
 
-        return (new Response($pedidos, "200"));
+        return (new Response($lineas, "200"));
     }
-    */
 
     public function carrito()
     {

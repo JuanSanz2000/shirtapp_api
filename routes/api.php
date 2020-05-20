@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('clientes', 'ClientesController@index');
 
 //PEDIDOS
 Route::middleware('auth:api')->get('pedidos',                       'PedidosController@index');
-//Route::middleware('auth:api')->get('pedidos/datos',                 'PedidosController@damePedido');
+Route::middleware('auth:api')->get('pedidos/datos/{pedidoId}',      'PedidosController@dameDetallesPedido');
 
 //CARRITOS
 Route::middleware('auth:api')->get('carrito',                       'PedidosController@carrito');
